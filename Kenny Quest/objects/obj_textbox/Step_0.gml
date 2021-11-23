@@ -1,4 +1,4 @@
-/// @description Animation and effects
+ /// @description Animation and effects
 
 switch fadeMe {
 	//Fade In

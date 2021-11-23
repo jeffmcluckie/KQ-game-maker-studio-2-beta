@@ -1,4 +1,4 @@
- /// @description Textbox test
+   /// @description Textbox test
  
  var _text;
  
@@ -6,15 +6,48 @@
  if(global.playerControl == true) {
 	 //If near NPC
 	 if (nearbyNPC) {
-		//If player does not have item
-		if (hasItem == noone || hasItem == undefined) {
-			_text = nearbyNPC.myText;
-			if (!instance_exists(obj_textbox)) {
-				iii = instance_create_depth(nearbyNPC.x,nearbyNPC.y-550,-10000,obj_textbox);
-				iii.textToShow = _text;
+		 //If NPC is still available
+		 if (nearbyNPC.myState == npcState.normal){
+			//If player does not have item
+			if (hasItem == noone || hasItem == undefined) {
+				_text = nearbyNPC.myText;
+				if (!instance_exists(obj_textbox)) {
+					iii = instance_create_depth(nearbyNPC.x,nearbyNPC.y-550,-10000,obj_textbox);
+					iii.textToShow = _text;
+					}
+				}
+			//If player has item (and it still exists)
+			if (hasItem != noone && instance_exists(hasItem)){
+				//If player has correct item
+				if (hasItem.object_index == nearbyNPC.myItem){
+					_text = nearbyNPC.itemTextHappy;
+					obj_GUI.numberOfCollectibles += 1;
+					audio_play_sound(snd_npc_complete,1,0);
+					// Check if we should remove item, mark NPC
+					alarm[1] = 10;
+				}
+				// Or if player has incorrect item
+				else {
+					_text = nearbyNPC.itemTextSad;
+				}
+				//Create textbox
+				if (!instance_exists(obj_textbox)){
+					iii = instance_create_depth(nearbyNPC.x,nearbyNPC.y-400,-10000,obj_textbox);
+					iii.textToShow = _text;
+					}
 				}
 			}
-		}
+			// If NPC is done
+			if(nearbyNPC.myState == npcState.done){
+				_text = nearbyNPC.itemTextDone;
+				if(!instance_exists(obj_textbox)){
+					iii = instance_create_depth(nearbyNPC.x,nearbyNPC.y-400,-10000,obj_textbox);
+					iii.textToShow = _text;
+				}
+			}
+	 }
+	 
+	
 	//If near item
 	if(nearbyItem && !nearbyNPC) {
 		//If player doesn't have item
@@ -54,4 +87,16 @@
 		}
 	} 
  }
+ 
+ //If Kevin is done to change music
+		if(obj_npc_kevin.myState == npcState.done && audio_is_playing(snd_headlines) == false && audio_is_playing(snd_islandboy) == false){
+			audio_stop_sound(snd_townBGM);
+			audio_play_sound(snd_headlines,1,1);
+			}
+			
+//If Kenny has 20 reds for Chelsea
+		if(obj_GUI.numberOfCollectibles >= 20){
+			obj_npc_chelsea.myState = npcState.done;
+			instance_destroy(Object40);
+		}
 
