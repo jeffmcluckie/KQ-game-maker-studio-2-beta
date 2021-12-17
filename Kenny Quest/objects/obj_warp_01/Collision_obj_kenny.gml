@@ -16,3 +16,8 @@ if(audio_is_playing(snd_townBGM) == true || audio_is_playing(snd_headlines) == t
 			audio_stop_sound(snd_fountain);
 			audio_play_sound(snd_islandboy,1,1);
 			}
+			
+if(audio_is_playing(snd_islandboy) == true){
+			audio_stop_sound(snd_islandboy);
+			//play different song
+			}

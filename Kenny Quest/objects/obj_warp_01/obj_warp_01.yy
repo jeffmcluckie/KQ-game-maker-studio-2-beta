@@ -37,7 +37,7 @@
     "path": "folders/Objects.yy",
   },
   "resourceVersion": "1.0",
-  "name": "obj_warp",
+  "name": "obj_warp_01",
   "tags": [],
   "resourceType": "GMObject",
 }
